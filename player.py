@@ -7,7 +7,7 @@ class Player(CircleShape): # Player class inherits from CircleShape
     def __init__(self, x, y): # Constructor 
         super().__init__(x, y, PLAYER_RADIUS) # Call the constructor of the parent class
         self.rotation = 0
-        #self.shots_group = pygame.sprite.Group()# tracks all shots
+        self.timer = 0
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation) # Get the forward vector
@@ -28,18 +28,22 @@ class Player(CircleShape): # Player class inherits from CircleShape
         self.position += forward * PLAYER_SPEED * dt
     
     def shoot(self):
-        forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        position = self.position + forward * self.radius
-        velocity = forward * PLAYER_SHOOT_SPEED 
+        if self.timer <= 0:
+            forward = pygame.Vector2(0, 1).rotate(self.rotation)
+            position = self.position + forward * self.radius
+            velocity = forward * PLAYER_SHOOT_SPEED 
         
-        shot = Shot(position.x, position.y, SHOT_RADIUS)
-        shot.velocity = velocity
+            shot = Shot(position.x, position.y, SHOT_RADIUS)
+            shot.velocity = velocity
 
-        #self.shots_group.add(shot)
+            self.timer = PLAYER_SHOOT_COOLDOWN
 
-    
+        
+        
     def update(self, dt): # Update the player
+        self.timer -= dt
         keys = pygame.key.get_pressed() # Get the keys that are pressed
+        
         if keys[pygame.K_a] or keys[pygame.K_LEFT]: # If the key is a
             self.rotate(-dt) # Rotate the player to the left
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:

@@ -50,6 +50,14 @@ def main():
                 game_over.show_game_over(screen, game_over_text, game_over_rect) #show game over text
                 pygame.quit() #quit the game
                 sys.exit() #exit the game
+        
+        for asteroid in asteroids: #iterates over the asteroids group
+            for shot in shot_group: #iterates over the shot group
+                if asteroid.collides_with(shot): #if the asteroid collides with the shot
+                    asteroid.kill() #kill the asteroid
+                    shot.kill() #kill the shot
+                    break #break the loop
+                
 
         screen.fill((0, 0, 0)) # Fill the screen with a color
         

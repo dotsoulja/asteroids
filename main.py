@@ -54,10 +54,10 @@ def main():
         for asteroid in asteroids: #iterates over the asteroids group
             for shot in shot_group: #iterates over the shot group
                 if asteroid.collides_with(shot): #if the asteroid collides with the shot
-                    asteroid.kill() #kill the asteroid
+                    asteroid.split() #new function we will be adding to the asteroid class
                     shot.kill() #kill the shot
                     break #break the loop
-                
+
 
         screen.fill((0, 0, 0)) # Fill the screen with a color
         

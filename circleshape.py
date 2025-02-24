@@ -1,4 +1,5 @@
 import pygame
+from constants import *
 class CircleShape(pygame.sprite.Sprite):
     def __init__(self, x, y, radius):
         # we will be using this later
@@ -18,4 +19,3 @@ class CircleShape(pygame.sprite.Sprite):
     def update(self, dt):
         # sub-classes must override
         pass
-    

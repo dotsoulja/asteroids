@@ -1,6 +1,7 @@
 import pygame
 from circleshape import CircleShape
 from constants import *
+from main import *
 
 class Player(CircleShape): # Player class inherits from CircleShape
     def __init__(self, x, y): # Constructor 
@@ -18,3 +19,20 @@ class Player(CircleShape): # Player class inherits from CircleShape
     def draw(self, screen): # Draw the player
         pygame.draw.polygon(screen, (255, 255, 255), self.triangle(), 2) # Draw the player as a white triangle with a width of 2
 
+    def rotate(self, dt):       
+        self.rotation += (PLAYER_TURN_SPEED * dt)
+
+    def move(self, dt):
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        self.position += forward * PLAYER_SPEED * dt
+    
+    def update(self, dt): # Update the player
+        keys = pygame.key.get_pressed() # Get the keys that are pressed
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]: # If the key is a
+            self.rotate(-dt) # Rotate the player to the left
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+            self.rotate(dt) # Rotate the player to the right
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
+            self.move(dt)
+        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+            self.move(-dt)

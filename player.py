@@ -1,12 +1,13 @@
 import pygame
+from shot import Shot
 from circleshape import CircleShape
 from constants import *
-from main import *
 
 class Player(CircleShape): # Player class inherits from CircleShape
     def __init__(self, x, y): # Constructor 
         super().__init__(x, y, PLAYER_RADIUS) # Call the constructor of the parent class
         self.rotation = 0
+        #self.shots_group = pygame.sprite.Group()# tracks all shots
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation) # Get the forward vector
@@ -26,6 +27,17 @@ class Player(CircleShape): # Player class inherits from CircleShape
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
     
+    def shoot(self):
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        position = self.position + forward * self.radius
+        velocity = forward * PLAYER_SHOOT_SPEED 
+        
+        shot = Shot(position.x, position.y, SHOT_RADIUS)
+        shot.velocity = velocity
+
+        #self.shots_group.add(shot)
+
+    
     def update(self, dt): # Update the player
         keys = pygame.key.get_pressed() # Get the keys that are pressed
         if keys[pygame.K_a] or keys[pygame.K_LEFT]: # If the key is a
@@ -36,3 +48,5 @@ class Player(CircleShape): # Player class inherits from CircleShape
             self.move(dt)
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.move(-dt)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
